@@ -10,51 +10,56 @@
 *
 *
 */
-
-int main(){
-    
-}
-
 class User {
-    private:
-        std::string firstName;
-        std::string lastName;
-        int id;
+private:
+    std::string firstName;
+    std::string lastName;
+    int id;
 
-    public:
-        User(){
-            firstName = "tempFirst";
-            lastName = "tempLast";
-            id = 1234;
-        }
-        User(std::string firstNameIn, std::string lastNameIn, int idIn){
-            firstName = firstNameIn;
-            lastName = lastNameIn;
-            id = idIn;
-        }
+public:
+    User() {
+        firstName = "tempFirst";
+        lastName = "tempLast";
+        id = 1234;
+    }
+    User(std::string firstNameIn, std::string lastNameIn, int idIn) {
+        firstName = firstNameIn;
+        lastName = lastNameIn;
+        id = idIn;
+    }
 
-        std::string user_name(){
-            return lastName + ", " + firstName;
-        }
+    std::string user_name() {
+        return lastName + ", " + firstName;
+    }
 
-        std::string getID(){
-            return "ID: W00" + id;
-        }
+    std::string getID() {
+        return "ID: W00" + std::to_string(id);
+    }
 
 };
 
 class Student : public User {
-    private:
-        bool fillVariableForSchedule = 1;
-    public:
-        Student() : User(){
+private:
+    bool fillVariableForSchedule = 1;
+public:
+    Student() : User() {
 
-        }
-        Student(std::string firstNameIn, std::string lastNameIn, int idIn) : User(firstNameIn, lastNameIn, idIn){
+    }
+    Student(std::string firstNameIn, std::string lastNameIn, int idIn) : User(firstNameIn, lastNameIn, idIn) {
 
-        }
+    }
 
-        std::string search_classes(){
-            return "This will search classes";
-        }
+    std::string search_classes() {
+        return "This will search classes";
+    }
 };
+
+int main(){
+    User asdf = User();
+    Student fdsa = Student("First Name", "Last Name", 123);
+
+    std::cout << asdf.user_name() << " & " << asdf.getID() << std::endl;
+
+    std::cout << fdsa.getID() << " & " << fdsa.search_classes() << " & " << fdsa.user_name();
+}
+
