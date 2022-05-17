@@ -30,3 +30,7 @@
 *.exe
 *.out
 *.app
+
+# Ignore Files from dirs
+x64/
+x86/
