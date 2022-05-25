@@ -5,7 +5,7 @@
 #
 ###############
 class User:
-   
+    "User Class with crediential information variables and set functions for each."
     def __init__(self, firstName = "testFirst", lastName = "testLast", id = 1234):
         self.firstName = firstName
         self.lastName = lastName
@@ -16,18 +16,18 @@ class User:
     
     def set_last(self, lastName):
         self.lastName = lastName
-
-    def set_name(self, firstName, lastName):
-        self.firstName = firstName
-        self.lastName = lastName
     
     def set_id(self, id):
         self.id = id
     
     def get_user(self):
-        print (self.lastName + ", " + self.firstName + "\nWIT ID: W00" + str(self.id))
+        print (f"\n{self.lastName} , {self.firstName} \nWIT ID: W00{self.id}")
+
+    def debug(self):
+        self.get_user()
 
 class Student(User):
+    "Child of User class that contains student specific functions"
     def __init__(self, firstName = "studentFirst", lastName = "studentLast", id = 1235):
         User.__init__(self, firstName, lastName, id)
 
@@ -41,12 +41,13 @@ class Student(User):
         print ("This will search classes")
 
     def add_drop_class(self):
-        print ("This will add/drop sepcified class")
+        print ("This will add/drop specified class")
 
     def print_schedule(self):
         print ("This will print the schedule")
 
 class Instructor(User):
+    "Child of User class that contains functionality pertaining to an Instructor"
     def __init__(self, firstName = "instructorFirst", lastName = "instructorLast", id = 1236):
         User.__init__(self, firstName, lastName, id)
 
@@ -66,6 +67,7 @@ class Instructor(User):
         print ("This will search classes") 
 
 class Admin(User):
+    "Administration class inhereiting from User with relevant functionality"
     def __init__(self, firstName = "adminFirst", lastName = "adminLast", id = 1237):
         User.__init__(self, firstName, lastName, id)
 
@@ -100,7 +102,7 @@ def prompt_for_usertype():
 
     while True:
         try:
-            userType = int(input("Input num: "))
+            userType = int(input("Input usertype: "))
             if(userType >= 0 and userType < 5):
                 return userType
             else:
@@ -115,7 +117,7 @@ def create_user(userType, users):
         
         while True:
             try:
-                a,b,c = input("Input:").split(",")
+                a,b,c = input("Input credentials:").split(",")
                 int(c)
                 break
             except:
@@ -129,25 +131,57 @@ def create_user(userType, users):
         if(userType == 4):
             users.append(Admin(a,b,c))
 
+
+# menu(User[] users)
+# 
+#       The function containing all logic for entering the needed commands
+#       Now for testing the menu relies on the debug function that calls all others
+#       but when greater functionality is added proper expansion of the commands will be done
+#      
+#       Primary function is handling and restricting of inputs both of commands and for 
+#       additional requirments within called commands
+#     
 def menu():
-    print("Main Menu")
+    print("\n------Main Menu------")
+    print("4. Change credentials")
     print("5. Debug(calls all other commands)")
     print("0. Exit")
 
     while True:
         try:
-            userType = int(input("Input num: "))
-            if(userType >= 0 and userType < 6):
+            userInput = int(input("Input command: "))
+            if(userInput >= 0 and userInput < 6):
                 break
             else:
                 raise Exception("IntegerOutOfRange")
         except:
             print("Invalid input!")
 
-    users[0].debug()
-    return userType
+    if(userInput == 4):
+        while True:
+            try:
+                print("Syntax: first,last,id")
+                first,last,id = input("Input new credentials: ").split(",")
+                int(id)
+                break
+            except:
+                print("Incorrect input")
+        users[0].set_first(first)
+        users[0].set_last(last)
+        users[0].set_id(id)
+
+    if(userInput == 5):
+        users[0].debug()
+    return userInput
 
 
+
+# __main__
+#      
+#      main function that does simple movement between functions
+#      aswell as storing values input and objects created within 
+#      some of the functions, stores global dictionary
+#     
 if __name__ == '__main__':
     global userTypeDict 
     userTypeDict= {

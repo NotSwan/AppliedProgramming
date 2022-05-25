@@ -25,6 +25,7 @@ public:
         lastName = "tempLast";
         id = 1234;
     }
+
     User(std::string firstName, std::string lastName, int id) {
         this->firstName = firstName;
         this->lastName = lastName;
@@ -48,14 +49,13 @@ public:
     }
 
     //get functions
-    std::string user_name() {
-        return lastName + ", " + firstName;
+    void get_user() {
+        std::cout << (lastName + ", " + firstName + "ID: W00" + std::to_string(id)) << std::endl;
     }
 
-    std::string getID() {
-        return "ID: W00" + std::to_string(id);
+    void debug() {
+        get_user();
     }
-
 };
 
 class Student : public User {
@@ -71,14 +71,20 @@ public:
     }
 
     //Functions
-    std::string search_classes() {
-        return "This will search classes";
+    void search_classes() {
+        std::cout << "This will search classes" << std::endl;
     }
-    std::string add_drop_classes() {
-        return "This will add/drop classes";
+    void add_drop_classes() {
+        std::cout << "This will add/drop classes" << std::endl;
     }
-    std::string print_schedule() {
-        return "This will print the schedule";
+    void print_schedule() {
+        std::cout << "This will print the schedule" << std::endl;
+    }
+    void debug() {
+        get_user();
+        search_classes();
+        add_drop_classes();
+        print_schedule();
     }
 };
 
@@ -96,16 +102,22 @@ public:
     }
 
     //Functions
-    std::string print_class_list() {
-        return "This will search classes";
+    void print_class_list() {
+        std::cout << "This will search classes" << std::endl;
     }
-    std::string print_schedule() {
-        return "This will print the schedule";
+    void print_schedule() {
+        std::cout << "This will print the schedule" << std::endl;
     }
-    std::string search_classes() {
-        return "This will add/drop classes";
+    void search_classes() {
+        std::cout << "This will add/drop classes" << std::endl;
     }
-
+    
+    void debug() {
+        get_user();
+        search_classes();
+        print_class_list();
+        print_schedule();
+    }
 };
 
 class Admin : public User {
@@ -122,29 +134,162 @@ public:
     }
 
     //Function
-    std::string add_course() {
-        return "This will add a course";
+    void add_course() {
+        std::cout << "This will add a course" << std::endl;
     }
-    std::string remove_course() {
-        return "This will remove a course";
+    void remove_course() {
+        std::cout << "This will remove a course" << std::endl;
     }
-    std::string add_remove_user() {
-        return "This will add/remove classes";
+    void add_remove_class() {
+        std::cout << "This will add/remove classes" << std::endl;
     }
-    std::string add_remove_student() {
-        return "This will add/remove students from a course";
+    void add_remove_student() {
+        std::cout << "This will add/remove students from a course" << std::endl;
     }
-    std::string search_rosters() {
-        return "This will search rosters";
+    void search_rosters() {
+        std::cout << "This will search rosters" << std::endl;
     }
-    std::string search_courses() {
-        return "This will search classes";
+    void search_courses() {
+        std::cout << "This will search classes" << std::endl;
+    }
+
+    void  debug() {
+        get_user();
+        add_course();
+        remove_course();
+        add_remove_class();
+        search_rosters();
+        search_courses();
     }
 };
 
+int prompt_for_usertype();
+void create_user(int userInput, User* users);
+int menu(User* users);
+
 int main(){
-    User asdf = User();
-    Student fdsa = Student("First Name", "Last Name", 123);
-    Instructor sadf = Instructor();
-    Admin dfas = Admin();
+    std::cout << ("\t---Welcome to the User Creation Tool---") << std::endl;
+    int userInput = prompt_for_usertype();
+    User* users = new User[5];
+    create_user(userInput, users);
+    while (userInput != 0) {
+        userInput = menu(users);
+    }
 }
+
+
+int prompt_for_usertype() {
+    std::cout << ("To begin what type of user would you like to create?") << std::endl;
+    std::cout << ("1. User") << std::endl;
+    std::cout << ("2. Student") << std::endl;
+    std::cout << ("3. Instructor") << std::endl;
+    std::cout << ("4. Admin") << std::endl;
+    std::cout << ("0. Exit") << std::endl;
+    int userType;
+    while (true) {
+        try {
+            std::cout << ("Input usertype: ");
+            std::cin >> userType;
+            if (userType >= 0 && userType < 5) {
+                return userType;
+            }
+            else
+                throw ("Int out of range");
+        }
+        catch (...) {
+            std::cout << ("Incorrect Input!") << std::endl;
+        }
+    }
+}
+
+void create_user(int userInput, User* users) {
+    std::string a;
+    std::string b;
+    int c;
+
+    if (userInput != 0) {
+
+        std::cout << ("\nYou selected: userType") << std::endl;
+        std::cout << ("Enter Credentials seperated by spaces( ) as first last id") << std::endl;
+
+        while (true) {
+            try {
+                std::cin >> a >> b >> c;
+                break;
+            }
+            catch (...) {
+                std::cout << ("Incorrect Input!") << std::endl;
+            }
+        }
+
+        if (userInput == 1) {
+            users[0] = (User(a, b, c));
+        }
+        if (userInput == 2) {
+            users[0] = (Student(a, b, c));
+        }
+        if (userInput == 3) {
+            users[0] = (Instructor(a, b, c));
+        }
+        if (userInput == 4) {
+            users[0] = (Admin(a, b, c));
+        }
+    }
+}
+
+int menu(User* users) {
+    std::cout << ("\n------Main Menu------") << std::endl;
+    std::cout << ("4. Change credentials") << std::endl;
+    std::cout << ("5. Debug(calls all other commands)") << std::endl;
+    std::cout << ("0. Exit") << std::endl;
+    int userInput;
+
+    while (true) {
+        try {
+            std::cout << ("Input command: ");
+            std::cin >> userInput;
+            if (userInput >= 0 && userInput < 6) {
+                break;
+            }
+            else
+                throw "Incorrect Input!";
+        }
+        catch (...) {
+            std::cout << ("Incorrect Input!") << std::endl;
+
+        }
+    }
+    if (userInput == 4) {
+        std::string a;
+        std::string b;
+        int c;
+        while (true) {
+            try {
+                std::cout << ("Syntax: first last id") << std::endl;
+                std::cout << ("Input new credentials: ") << std::endl;
+                while (true) {
+                    try {
+                        std::cin >> a >> b >> c;
+                        break;
+                    }
+                    catch (...) {
+                        std::cout << ("Incorrect Input!") << std::endl;
+                    }
+                }
+                break;
+            }
+            catch (...) {
+                std::cout <<  ("Incorrect input") << std::endl;
+            }
+        }
+        users[0].set_first(a);
+        users[0].set_last(b);
+        users[0].set_id(c);
+    }
+
+    if (userInput == 5) {
+        users[0].debug();
+    }
+    return userInput;
+}
+
