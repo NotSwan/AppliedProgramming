@@ -34,3 +34,9 @@
 # Ignore Files from dirs
 x64/
 x86/
+.vscode/
+*.lock
+*.vsidx
+Assignment1/C++/.vs/C++/v17/.suo
+*.db
+*.ipch
